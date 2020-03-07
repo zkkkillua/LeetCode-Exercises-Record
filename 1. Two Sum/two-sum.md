@@ -44,14 +44,14 @@ vector<int> twoSum(vector<int>& nums, int target) {
 ```
 
 ## 2. hash/对数级查找
-遍历nums的数据，每遍历一个数据x，去hash表中查找有无target - x的数据，并将该数据x插入到hash表中。
-hash表中，key储存数据x或者数据x需要的数据target - x，value储存其index
-hash表的查找可以看作是O(1)*（如果不发生碰撞的话）*~~（map是O(logn)）~~，所以复杂度为O(n)~~或O(nlogn)~~
-*后补：*
-*`map`的实现依赖于红黑树，内部是有序的，实现了对数级别的查找，以下代码是依靠`map`实现的。*
-*`map`与hash表没有关系。hash表用更大的空间实现了更快的查找：`O(1)`。*
-*hash表可以使用`unordered_map`，由hash函数实现，所以查找插入和删除都是`O(1)`的。*
-*也正因为如此，`unordered_map`的内部元素是无序的，而`map`内部是有序的。*
+遍历nums的数据，每遍历一个数据x，去hash表中查找有无target - x的数据，并将该数据x插入到hash表中。  
+hash表中，key储存数据x或者数据x需要的数据target - x，value储存其index 
+ash表的查找可以看作是O(1)*（如果不发生碰撞的话）*~~（map是O(logn)）~~，所以复杂度为O(n)~~或O(nlogn)~~  
+后补：*  
+*`map`的实现依赖于红黑树，内部是有序的，实现了对数级别的查找，以下代码是依靠`map`实现的。*  
+*`map`与hash表没有关系。hash表用更大的空间实现了更快的查找：`O(1)`。*  
+*hash表可以使用`unordered_map`，由hash函数实现，所以查找插入和删除都是`O(1)`的。*  
+*也正因为如此，`unordered_map`的内部元素是无序的，而`map`内部是有序的。*  
 *至于`hash-map`，它与`unordered_map`功能相同，但是不属于STL，是历史原因，使用`unordered_map`即可。*
 ```cpp
 vector<int> twoSum(vector<int>& nums, int target) {
