@@ -61,7 +61,7 @@ public:
 
 ## 2. 最长公共子串
 回文字符串正反都是一样的，所以对于回文字符串，其在`s`和逆序的`s'`中是一样的，因此可以转换为求`最长公共子串`的问题。  
-注意`最长公共子串`和`最长公共子序列`是不同的，参考https://blog.csdn.net/ggdhs/article/details/90713154  
+注意`最长公共子串`和`最长公共子序列`是不同的，参考[https://blog.csdn.net/ggdhs/article/details/90713154](https://blog.csdn.net/ggdhs/article/details/90713154)  
 **最长公共子串不一定是`s`的回文字符串，比如`abc123cba`得到的最长公共子串是`abc`但并不回文，因此还需要判断索引位置**  
   
 **最长公共子串**：  
