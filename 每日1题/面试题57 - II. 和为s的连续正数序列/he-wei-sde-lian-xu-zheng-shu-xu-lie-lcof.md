@@ -33,12 +33,37 @@ public:
 };
 ```
   
-## 1. 
+## 1. 双指针
+小了r++，大了l++
 ```cpp
 class Solution {
 public:
     vector<vector<int>> findContinuousSequence(int target) {
+        int left = 1, right = 1;
+        int sum = 1;
+        vector<vector<int> > ans;
+        while (left <= right) {
+            if (sum < target) {
+                right++;
+                sum += right;
+            } else if (sum > target) {
+                sum -= left;
+                left++;
+            } else {
+                vector<int> group;
+                for (int i = left; i <= right; i++)
+                    group.push_back(i);
+                ans.push_back(group);
+                left++;
+                right++;
+                sum = sum - left + right + 1;
+            }
 
+            if (left > target / 2)
+                break;
+        }
+
+        return ans;
     }
 };
 ```
