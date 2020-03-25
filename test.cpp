@@ -4,15 +4,28 @@
 
 using namespace std;
 
+class Obj
+{
+public:
+    void set(int a) {this->a = a;}
+    void print() {cout << a << endl;}
+private:
+    int a;
+};
+
 int main()
 {
-    string s = "string";
-    char c = s[2];
-    string ss = "r";
+    // Obj obj;
+    // obj.set(5);
+    // obj.print();
 
-    cout << typeid(c).name() << ' ' << sizeof(c) << endl;
-    cout << typeid(ss).name() << ' ' << sizeof(ss) << endl;
-    cout << typeid(s).name() << ' ' << sizeof(s) << endl;
+    int num = 3;
+    if (num >= 0)
+        if (num == 0)
+            cout << "first" << endl;
+        else
+            cout << "second" << endl;
+    cout << "third" << endl;
 
     return 0;
 }
