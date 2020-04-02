@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <typeinfo>
+#include <vector>
 
 using namespace std;
 
@@ -13,19 +14,20 @@ private:
     int a;
 };
 
+int func(const vector<int>& vec)
+{
+    int ans = vec[2];
+    return ans;
+}
+
 int main()
 {
     // Obj obj;
     // obj.set(5);
     // obj.print();
 
-    int num = 3;
-    if (num >= 0)
-        if (num == 0)
-            cout << "first" << endl;
-        else
-            cout << "second" << endl;
-    cout << "third" << endl;
+    vector<int> vec = {2, 3, 4, 5};
+    cout << func(vec) << endl;
 
     return 0;
 }
