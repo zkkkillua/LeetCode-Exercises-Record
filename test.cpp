@@ -2,6 +2,8 @@
 #include <string>
 #include <typeinfo>
 #include <vector>
+#include <algorithm>
+#include <cmath>
 
 using namespace std;
 
@@ -26,8 +28,8 @@ int main()
     // obj.set(5);
     // obj.print();
 
-    vector<int> vec = {2, 3, 4, 5};
-    cout << func(vec) << endl;
+    int a = 5;
+    cout << -pow(2, a) << endl;
 
     return 0;
 }
