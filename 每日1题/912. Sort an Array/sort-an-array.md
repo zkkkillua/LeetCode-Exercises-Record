@@ -10,7 +10,7 @@ public:
   
 练习排序的题，要求复杂度`O(nlogn)`。  
   
-## 1. 憨批解法之直接sort()
+## 1. 憨批解法之直接STL sort()
 ```cpp
 class Solution {
 public:
@@ -21,7 +21,7 @@ public:
 };
 ```
   
-## 2. 计数排序
+## 2. 计数排序counting sort
 计数排序的时间复杂度是`O(n+range)`的，空间复杂度是`O(range)`。  
 由于计数排序不是比较排序，所以不受最优时间复杂度是`O(nlogn)`的限制。  
 计数排序是稳定的排序方法，但是下面的代码不是稳定的。  
@@ -62,7 +62,14 @@ public:
 ![counting_process2](pics/counting_2.png)  
 ![counting_process3](pics/counting_3.png)  
   
-## 3. 堆排序
+同样，计数排序的空间复杂度也不一定必须是`O(range)`的。  
+当`range`很大而数据很少时，申请一个大空间是非常浪费的，因此可以申请一个大小为`n`的空间作为`counter`。  
+`counter[i]`不再是数据`i`出现的次数，而是小于和在数据左侧等于`nums[i]`这个数据的数据个数。  
+这样就直接获得了`nums[i]`这个数据在有序数组中的位置，并且还保证了排序的稳定性。  
+获取`counter`数组的时间复杂度为`O(n^2)`。排序的空间复杂度为`O(n)`。  
+![stable_counting_sort_capable_with_with_range](pics/counting_stable_O(n).png)  
+  
+## 3. 堆排序heap sort
 时间复杂度`O(nlogn)`，空间上可以原地排。不稳定的排序。  
 ### 堆
 由于堆是满二叉树，所以不需要定义节点的左右孩子，而直接通过索引运算就可以得到。  
@@ -206,3 +213,85 @@ public:
 };
 ```
   
+## 4. 选择排序selection sort
+每次选最大的，交换到最后面。~~稳定排序~~，时间`O(n^2)`，空间可原地排`O(n)`。  
+选择排序是不稳定的，之前只考虑到了`5,5,2,2`选择后面的`5`与`2`交换，却没想到后面的`2`被换到了前面。  
+```cpp
+class Solution {
+public:
+    vector<int> sortArray(vector<int>& nums) {
+        int n = nums.size();
+        for (int left = n; left > 1; left--) {
+            int maxIndex = 0;
+            // bool sorted = true;
+            for (int i = 1; i < left; i++) {
+                maxIndex = nums[i] >= nums[maxIndex] ? i : maxIndex;
+                // if (maxIndex != i)
+                //     sorted = false;
+            }
+            // if (sorted)
+            //     return nums;
+            swap(nums[maxIndex], nums[left - 1]);
+        }
+
+        return nums;
+    }
+};
+```
+及时终止的选择排序：当数据已有序时，上述代码仍需要每次遍历比较，浪费时间。  
+判断有序的条件就是，当在一次找最大值索引的过程中，该索引一直在变化，说明已有序。  
+代码以注释的形式添加进上述代码中。  
+  
+## 5. 冒泡排序bubble sort
+通过交换把最大值冒泡到最右侧。时间`O(n^2)`，空间原地重排`O(n)`，稳定排序。  
+缺点是需要大量的交换操作，最差需要`O(n^2)`次（当序列为从大到小时）  
+及时终止的冒泡排序：当一次循环中一直没有交换，说明已有序。同样以注释方式展示。  
+```cpp
+class Solution {
+public:
+    vector<int> sortArray(vector<int>& nums) {
+        int n = nums.size();
+        for (int left = n; left > 1; left--) {
+            // int sorted = true;
+            for (int i = 0; i < left - 1; i++) {
+                if (nums[i] > nums[i + 1]) {
+                    swap(nums[i], nums[i + 1]);
+                    // sorted = false;
+                }
+            }
+            // if (sorted)
+            //     return nums;
+        }
+
+        return nums;
+    }
+};
+```
+  
+## 6. 插入排序insertion sort
+将右侧无序部分的最左侧的数据插入到左侧有序部分的对应位置，时间`O(n^2)`，空间原地重排`O(n)`，稳定排序。  
+插入方法是左侧有序部分的右侧数据不断向右移动，直到找到数据应该在的位置，并且已为其空出位置。  
+```cpp
+class Solution {
+public:
+    vector<int> sortArray(vector<int>& nums) {
+        int n = nums.size();
+        for (int i = 1; i < n; i++) {
+            int value = nums[i];
+            int loc = 0;
+            for (int j = i - 1; j >= 0; j--) {
+                if (nums[j] > value) {
+                    nums[j + 1] = nums[j];
+                    loc = j;
+                } else {
+                    loc = j + 1;
+                    break;
+                }
+            }
+            nums[loc] = value;
+        }
+
+        return nums;
+    }
+};
+```
