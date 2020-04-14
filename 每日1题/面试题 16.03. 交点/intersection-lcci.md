@@ -1,0 +1,19 @@
+## 框架
+```cpp
+class Solution {
+public:
+    vector<double> intersection(vector<int>& start1, vector<int>& end1, vector<int>& start2, vector<int>& end2) {
+
+    }
+};
+```
+  
+## 1. 
+```cpp
+class Solution {
+public:
+    vector<double> intersection(vector<int>& start1, vector<int>& end1, vector<int>& start2, vector<int>& end2) {
+
+    }
+};
+```
