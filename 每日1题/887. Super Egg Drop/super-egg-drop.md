@@ -30,6 +30,8 @@ i层楼j个蛋能够测出分界楼层需要的最少次数 = 遍历中间任意
 ![draft](pics/min_max.png)  
 直接找`dp[x-1][j-1] == dp[i-x][j]`的`x`是不方便的，所以可以找使得`dp[x-1][j-1] <= dp[i-x][j]`成立的最大值`x`，这里就可以二分了。  
   
+由于将原本`O(n)`的遍历楼层的过程改为了二分，所以时间复杂度降低为`O(knlogn)`。  
+  
 ```cpp
 class Solution {
 public:
