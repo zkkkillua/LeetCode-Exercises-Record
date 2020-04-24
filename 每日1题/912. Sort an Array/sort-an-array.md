@@ -295,3 +295,56 @@ public:
     }
 };
 ```
+  
+## 7. 归并排序merge sort
+分治的思想，先拆分后合并。  
+![merge_sort](pics/merge_sort.png)  
+时间[`O(nlogn)`](https://www.jianshu.com/p/dfcfe667687b)，空间`O(n)`（借助辅助数组），稳定排序。  
+以下是递归实现，如果是迭代实现的话，可以循环步长，1, 2, 4, 8, ...代表每次合并的子数组的大小。  
+```cpp
+class Solution {
+public:
+    vector<int> sortArray(vector<int>& nums) {
+        vector<int> temp(nums.size());
+        mergeSort(nums, temp, 0, nums.size() - 1);
+        return nums;
+    }
+
+private:
+    void mergeSort(vector<int>& nums, vector<int>& temp, int left, int right) {
+        if (left >= right)
+            return;
+        int mid = (left + right) / 2;
+        mergeSort(nums, temp, left, mid);        // 排左半部分
+        mergeSort(nums, temp, mid + 1, right);   // 排右半部分
+        merge(nums, temp, left, mid, right);     // 合并有序的左右两部分
+    }
+
+    void merge(vector<int>& nums, vector<int>& temp, int left, int mid, int right) {
+        if (nums[mid] <= nums[mid + 1])     // 已有序
+            return;
+
+        // 为了避免频繁的临时数组的构造和析构，使用一个大的临时数组记录排序过程得到的结果，最后赋给nums即可
+        // 修改之后，时间和空间的提升还是很大的。
+        // vector<int> leftSubArray(nums.begin() + left, nums.begin() + mid + 1);
+        // vector<int> rightSubArray(nums.begin() + mid + 1, nums.begin() + right + 1);
+
+        int i = left, j = mid + 1;
+        for (int k = left; k <= right; k++) {
+            if (i > mid)
+                temp[k] = nums[j++];
+            else if (j > right)
+                temp[k] = nums[i++];
+            else {
+                if (nums[i] <= nums[j])
+                    temp[k] = nums[i++];
+                else
+                    temp[k] = nums[j++];
+            }
+        }
+
+        for (int k = left; k <= right; k++)
+            nums[k] = temp[k];
+    }
+};
+```
