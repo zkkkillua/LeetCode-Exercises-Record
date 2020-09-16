@@ -1,6 +1,6 @@
 ## 相关
 1. 二叉树的前序遍历：144
-2. 二叉树的后序遍历：
+2. 二叉树的后序遍历：145
 
 ## 1. 递归
 左根右直接递归实现。  
@@ -44,14 +44,15 @@ public:
         vector<int> ans;
 
         while (!st.empty() || root != nullptr) {
-            while (root != nullptr) {
+            if (root == nullptr) {
+                root = st.top();
+                st.pop();
+                ans.push_back(root->val);
+                root = root->right;
+            } else {
                 st.push(root);
                 root = root->left;
             }
-            root = st.top();
-            st.pop();
-            ans.push_back(root->val);
-            root = root->right;
         }
 
         return ans;
