@@ -110,18 +110,14 @@ void push(vector<int>& nums, int value)
 {
     nums.push_back(value);
     int n = nums.size();
+    int child = n - 1;
     int parent = (n - 2) / 2;
-    while (parent >= 0) {
-        int child = 2 * parent + 1;
-        if (child + 1 < n && nums[child] < nums[child + 1])
-            child++;
-        if (nums[parent] < nums[child]) {
-            int temp = nums[parent];
-            nums[parent] = nums[child];
-            nums[child] = temp;
-            parent = (parent - 1) / 2;
-        } else
-            break;
+    while (parent >= 0 && nums[child] > nums[parent]) {
+        int temp = nums[parent];
+        nums[parent] = nums[child];
+        nums[child] = temp;
+        child = parent;
+        parent = (parent - 1) / 2;
     }
 }
 ```
@@ -137,7 +133,7 @@ int pop(vector<int>& nums)
     nums[0] = nums[n - 1];
     nums.resize(--n);
     int loc = 0;
-    while (loc >= (n - 2) / 2) {
+    while (loc <= (n - 2) / 2) {
         int child = 2 * loc + 1;
         if (child + 1 < n && nums[child] < nums[child + 1])
             child++;
