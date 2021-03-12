@@ -2,6 +2,7 @@
 前序遍历：根左右  
 中序遍历：左根右  
 前序遍历第一个字符为根节点，然后根据中序遍历中根节点字符的位置将左右根据个数分为不同的部分。  
+由于每次到中序遍历中查找根节点字符所在的位置还需要`O(n)`的时间，因此使用hash表预处理中序序列，将查找的时间降低到`O(1)`。  
 时间`O(n)`，空间`O(n)`。  
 ```cpp
 /**
@@ -16,22 +17,27 @@
 class Solution {
 public:
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        if (preorder.empty())
-            return nullptr;
-        
-        TreeNode* root = new TreeNode(preorder[0]);
-        int rootLoc = 0;
-        while (rootLoc < inorder.size() && inorder[rootLoc] != preorder[0])
-            rootLoc++;
-        vector<int> leftPreorder(preorder.begin() + 1, preorder.begin() + rootLoc + 1);
-        vector<int> rightPreorder(preorder.begin() + rootLoc + 1, preorder.end());
-        vector<int> leftInorder(inorder.begin(), inorder.begin() + rootLoc);
-        vector<int> rightInorder(inorder.begin() + rootLoc + 1, inorder.end());
-        root->left = buildTree(leftPreorder, leftInorder);
-        root->right = buildTree(rightPreorder, rightInorder);
+        int n = inorder.size();
+        for (int i = 0; i < n; i++)
+            index[inorder[i]] = i;
+
+        TreeNode* root = subBuildTree(preorder, inorder, 0, n - 1, 0, n - 1);
 
         return root;
     }
+private:
+    TreeNode* subBuildTree(vector<int>& preorder, vector<int>& inorder, int prei, int prej, int ini, int inj) {
+        if (prei > prej || ini > inj)
+            return nullptr;
+        
+        TreeNode* root = new TreeNode(preorder[prei]);
+        int rootLoc = index[preorder[prei]];
+        root->left = subBuildTree(preorder, inorder, prei + 1, prei + rootLoc - ini, ini, rootLoc - 1);
+        root->right = subBuildTree(preorder, inorder, prei + rootLoc - ini + 1, prej, rootLoc + 1, inj);
+
+        return root;
+    }
+    unordered_map<int, int> index;
 };
 ```
   

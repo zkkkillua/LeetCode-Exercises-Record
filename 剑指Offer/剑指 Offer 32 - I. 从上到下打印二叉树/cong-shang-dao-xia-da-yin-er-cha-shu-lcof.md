@@ -1,0 +1,33 @@
+## 1. 层次遍历
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> levelOrder(TreeNode* root) {
+        vector<int> res;
+        queue<TreeNode*> q;
+        if (root != nullptr)
+            q.push(root);
+        
+        while (!q.empty()) {
+            TreeNode* node = q.front();
+            q.pop();
+            res.push_back(node->val);
+            if (node->left != nullptr)
+                q.push(node->left);
+            if (node->right != nullptr)
+                q.push(node->right);
+        }
+
+        return res;
+    }
+};
+```
